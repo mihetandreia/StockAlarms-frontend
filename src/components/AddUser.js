@@ -25,7 +25,12 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/user", user);
+    try {
+      await axios.post("http://localhost:8080/user", user);
+      alert("Registation Successfully");
+    } catch (err) {
+    alert(err);
+  }
     navigate("/");
   };
   
@@ -48,6 +53,7 @@ export default function AddUser() {
                 name="firstName"
                 value={firstName}
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -61,6 +67,7 @@ export default function AddUser() {
                 name="lastName"
                 value={lastName}
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -74,6 +81,7 @@ export default function AddUser() {
                 name="email"
                 value={email}
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className="mb-3">
@@ -88,10 +96,12 @@ export default function AddUser() {
                   name="password"
                   value={password}
                   onChange={(e) => onInputChange(e)}
+                  required
                 />
                 <button
                   className="btn btn-outline-secondary"
                   type="button"
+                  required
                   onClick={toggleShowPassword}
                 >
                   {showPassword ? "Hide" : "Show"}
