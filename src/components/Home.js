@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 export default function Home() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);  
 
     useEffect(() => {
-        loadUsers();
-    }, []);
+      loadUsers();
+  }, []);
 
-    const loadUsers = async () => {
-        try {
-            const result = await axios.get("http://localhost:8080/users")
-            console.log(result.data);
-             setUsers(result.data);
-        } catch (error) {
-        if (error.response) {
-            console.log('Răspuns cu eroare:', error.response.data);
-        } else if (error.request) {
-            console.log('Eroare de rețea:', error.message);
-        } else {
-            console.error('Eroare:', error.message);
-        }
-        }
-    }
+  const loadUsers = async () => {
+      try {
+          const result = await axios.get("http://localhost:8080/users")
+          setUsers(result.data);
+      } catch (error) {
+      if (error.response) {
+          console.log('Răspuns cu eroare:', error.response.data);
+      } else if (error.request) {
+          console.log('Eroare de rețea:', error.message);
+      } else {
+          console.error('Eroare:', error.message);
+      }
+      }
+  }
 
 return (
     <div>
@@ -36,7 +34,6 @@ return (
       <th scope="col">Email</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
-     
     </tr>
   </thead>
   <tbody>
@@ -55,9 +52,6 @@ return (
 </table>
     </div>
     </div>
-    <div className="container-fluid d-flex justify-content-center align-items-center" >
-    <Link className="btn btn-outline-dark" to="/adduser">Registration</Link>
-  </div>
   </div>
   )
 

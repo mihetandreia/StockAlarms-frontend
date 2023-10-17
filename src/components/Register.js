@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function AddUser() {
+export default function Register() {
   let navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,7 @@ export default function AddUser() {
     <div className="container">
       <div className="row">
         <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-          <h2 className="text-center m-4">Registration</h2>
+          <h2 className="text-center m-4">Register</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="mb-3">
@@ -108,11 +108,11 @@ export default function AddUser() {
                 </button>
               </div>
             </div>
-            <button type="submit" className="btn btn-outline-primary">
+            <button type="submit" className="btn btn-primary">
               Create account
             </button>
-            <Link className="btn btn-outline-danger mx-2" to="/">
-              Cancel
+            <Link className="btn btn-outline-dark mx-2" to="/">
+              Login
             </Link>
           </form>
         </div>
