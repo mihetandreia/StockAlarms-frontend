@@ -13,7 +13,7 @@ export default function Login() {
     async function login(event) {
         event.preventDefault();
         try {
-          await axios.post("http://localhost:8080/login", {
+          await axios.post("http://localhost:8080/api/users/login", {
             email: email,
             password: password,
             }).then((res) => 
@@ -32,7 +32,7 @@ export default function Login() {
              } 
               else 
              { 
-                alert("Incorrect Email and Password not match");
+                alert("Incorrect Email or Password");
              }
           }, fail => {
            console.error(fail);
