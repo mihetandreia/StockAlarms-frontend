@@ -6,12 +6,25 @@ import AlarmForm from "./AlarmForm";
 
 export default function AlarmPage({ user }) {
     const [showTable, setShowTable] = useState(false);
-
-
+    const [initialAlarm, setInitialAlarm] = useState(
+      {stock: '',
+      upperTarget: 0,
+      lowerTarget: 0,
+      status: true,
+  }); 
+    const [onAddOrUpdate, setOnAddOrUpdate] = useState({isEditing: false, initialAlarmValues: initialAlarm});
+    const [showForm, setShowForm] = useState(true);
+    const hideForm = () => {
+      setShowForm(false);
+};
     const getUserAlarms = () => axios.get(`http://localhost:8080/api/alarms/getAllByUserId/${user.id}`).then(res => res.data);
   
-    const editAlarm = (updatedAlarm) => {
-      // TODO
+    const editAlarm = (alarm) => {
+     setOnAddOrUpdate({
+      isEditing: true,
+      initialAlarmValues: alarm
+     })
+     refetch();
     };
     
     const deleteAlarm = async (id) => {
@@ -41,7 +54,6 @@ export default function AlarmPage({ user }) {
 
       const { data, isLoading, isError, error, refetch } = useQuery('alarms', getUserAlarms);
      
-
       if (isLoading) {
         return 'Loading alarms...';
       }
@@ -52,9 +64,13 @@ export default function AlarmPage({ user }) {
   
       return (
   <div className="mx-auto">
-    <h1 className="my-4">Add new alarm</h1>
     <div className="border p-4 mb-4">
-      <AlarmForm user={user} />
+    <h1 className="my-4">Add new alarm</h1>
+      <AlarmForm user={user} onAddOrUpdate={
+        {isEditing: false, 
+         initialAlarmValues: initialAlarm
+        }} 
+        hideForm={hideForm}/>
    
     <button className="btn btn-outline-secondary my-3" onClick={toggleTable}>
       {showTable? 'Hide alarms' : 'Show alarms'}
@@ -64,8 +80,12 @@ export default function AlarmPage({ user }) {
       <thead>
         <tr>
           <th>Stock</th>
-          <th>Upper Target</th>
-          <th>Lower Target</th>
+          <th>Initial price</th>
+          <th>Current price</th>
+          <th>Variance</th>
+          <th>Upper target</th>
+          <th>Lower target</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -73,10 +93,14 @@ export default function AlarmPage({ user }) {
         {data?.map((alarm, index) => (
           <tr key={index}>
             <td>{alarm.stock}</td>
-            <td>{alarm.upperTarget}%</td>
-            <td>{alarm.lowerTarget}%</td>
+            <td>{alarm.priceWhenAlarmWasDefined}</td>
+            <td>{alarm.status ? alarm.currentPrice : "-"}</td>
+            <td>{alarm.status ? (alarm.changePercent > 0 ? `+${alarm.changePercent}%` : `${alarm.changePercent}%`) : "-"}</td>
+            <td>+{alarm.upperTarget}%</td>
+            <td>-{alarm.lowerTarget}%</td>
+            <td>{alarm.status ? "Active" : "Inactive"}</td>
             <td>
-              <button className="btn btn-primary mx-1" onClick={() => editAlarm(alarm)}>Edit</button>
+              <button className="btn btn-primary mx-1" onClick={() => editAlarm({stock: alarm.stock, upperTarget: alarm.upperTarget, lowerTarget: alarm.lowerTarget, status: alarm.status})}>Edit</button>
               <button className="btn btn-danger mx-1" onClick={() => handleDeleteClick(alarm.id)}>Delete</button>
             </td>
           </tr>
@@ -84,7 +108,13 @@ export default function AlarmPage({ user }) {
       </tbody>
     </table>
      )}
+     {onAddOrUpdate.isEditing && showForm &&
+     <div>
+      <h2 className="my-4">Update alarm</h2>
+      <AlarmForm user={user} onAddOrUpdate={onAddOrUpdate} hideForm={hideForm}/>
+     </div> }
     </div>
+
   </div>
   
     );

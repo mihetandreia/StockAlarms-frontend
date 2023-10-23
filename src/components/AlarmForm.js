@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 
-function AlarmForm({ user }) {
-  const [alarm, setAlarm] = useState({
-    stock: '',
-    upperTarget: 0,
-    lowerTarget: 0,
-    status: true,
-  });
+function AlarmForm({ user, onAddOrUpdate, hideForm }) {
+  const [alarm, setAlarm] = useState(onAddOrUpdate.initialAlarmValues);
+  const [isEditing, setIsEditing] = useState(onAddOrUpdate.isEditing);
+ 
 
   const handleChange = (e) => {
     setAlarm({ ...alarm, [e.target.name]: e.target.value, user });
@@ -16,22 +13,39 @@ function AlarmForm({ user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      if (onAddOrUpdate.isEditing) {
+        await axios.put(`http://localhost:8080/api/alarms/update/${alarm.id}`, alarm);
+        alert("Updated Successfully");
+        hideForm();
+      } else {
         await axios.post("http://localhost:8080/api/alarms/add", alarm);
         alert("Added Successfully");
-        setAlarm({
-          stock: '',
-          upperTarget: 0,
-          lowerTarget: 0,
-          status: true,
-        });
-    
-      } catch (err) {
+      }
+
+      setAlarm({
+        stock: '',
+        upperTarget: 0,
+        lowerTarget: 0,
+        status: true,
+      });
+
+    } catch (err) {
       alert(err);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {isEditing && (
+        <div>
+          <input
+            type="hidden"
+            name="id"
+            value={alarm.id} 
+          />
+        </div>
+      )}
+
       <div className="form-row">
         <div className="col-md-4 mx-auto">
           <div className="form-group">
@@ -70,11 +84,11 @@ function AlarmForm({ user }) {
           </div>
         </div>
       </div>
-      <button type="submit" className="btn btn-primary mt-3">Add Alarm</button>
+      <button type="submit" className="btn btn-primary mt-3">
+        {isEditing ? "Update Alarm" : "Add Alarm"}
+      </button>
     </form>
   );
-  
-
 }
 
 export default AlarmForm;

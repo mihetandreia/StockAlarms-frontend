@@ -23,7 +23,7 @@ function Home() {
     }
   } 
 };
-return user.id ? <AlarmPage user={user} /> : <div>Loading...</div>;
+return (user.id ? <AlarmPage user={user} /> : <div>Loading...</div>) ;
 
 }
 
