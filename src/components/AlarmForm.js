@@ -23,6 +23,7 @@ function AlarmForm({ user, onAddOrUpdate, hideForm }) {
       }
 
       setAlarm({
+        id: '',
         stock: '',
         upperTarget: 0,
         lowerTarget: 0,

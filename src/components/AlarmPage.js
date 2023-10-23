@@ -7,10 +7,11 @@ import AlarmForm from "./AlarmForm";
 export default function AlarmPage({ user }) {
     const [showTable, setShowTable] = useState(false);
     const [initialAlarm, setInitialAlarm] = useState(
-      {stock: '',
-      upperTarget: 0,
-      lowerTarget: 0,
-      status: true,
+      { id: '',
+        stock: '',
+        upperTarget: 0,
+        lowerTarget: 0,
+        status: true,
   }); 
     const [onAddOrUpdate, setOnAddOrUpdate] = useState({isEditing: false, initialAlarmValues: initialAlarm});
     const [showForm, setShowForm] = useState(true);
@@ -25,6 +26,7 @@ export default function AlarmPage({ user }) {
       initialAlarmValues: alarm
      })
      refetch();
+     setShowForm(true);
     };
     
     const deleteAlarm = async (id) => {
@@ -100,7 +102,7 @@ export default function AlarmPage({ user }) {
             <td>-{alarm.lowerTarget}%</td>
             <td>{alarm.status ? "Active" : "Inactive"}</td>
             <td>
-              <button className="btn btn-primary mx-1" onClick={() => editAlarm({stock: alarm.stock, upperTarget: alarm.upperTarget, lowerTarget: alarm.lowerTarget, status: alarm.status})}>Edit</button>
+              <button className="btn btn-primary mx-1" onClick={() => editAlarm({id: alarm.id, stock: alarm.stock, upperTarget: alarm.upperTarget, lowerTarget: alarm.lowerTarget, status: alarm.status})}>Edit</button>
               <button className="btn btn-danger mx-1" onClick={() => handleDeleteClick(alarm.id)}>Delete</button>
             </td>
           </tr>
