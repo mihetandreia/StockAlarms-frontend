@@ -18,9 +18,18 @@ function AlarmForm({ user, onAddOrUpdate, hideForm }) {
         alert("Updated Successfully");
         hideForm();
       } else {
+        try{
         await axios.post("http://localhost:8080/api/alarms/add", alarm);
         alert("Added Successfully");
-      }
+      } catch (error) {
+        if (error.response) {
+            alert(error.response.data)
+            console.log(error.response.data);
+      } else if (error.request) {
+        console.log('Eroare de rețea:', error.message);
+    } else {
+        console.error('Eroare:', error.message);
+    }}};
 
       setAlarm({
         id: '',
