@@ -5,12 +5,12 @@ import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
+import { useState } from 'react';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
         <Routes>
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/register" element={<Register />} />

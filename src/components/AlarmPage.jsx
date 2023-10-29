@@ -65,6 +65,7 @@ export default function AlarmPage({ user }) {
       }
   
       return (
+       
   <div className="mx-auto">
     <div className="border p-4 mb-4">
     <h1 className="my-4">Add new alarm</h1>
@@ -99,7 +100,7 @@ export default function AlarmPage({ user }) {
             <td>{alarm.status ? alarm.currentPrice : "-"}</td>
             <td>{alarm.status ? (alarm.changePercent > 0 ? `+${alarm.changePercent}%` : `${alarm.changePercent}%`) : "-"}</td>
             <td>+{alarm.upperTarget}%</td>
-            <td>-{alarm.lowerTarget}%</td>
+            <td>{alarm.lowerTarget}%</td>
             <td>{alarm.status ? "Active" : "Inactive"}</td>
             <td>
               <button className="btn btn-primary mx-1" onClick={() => editAlarm({id: alarm.id, stock: alarm.stock, upperTarget: alarm.upperTarget, lowerTarget: alarm.lowerTarget, status: alarm.status})}>Edit</button>

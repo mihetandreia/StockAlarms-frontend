@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AlarmPage from './AlarmPage';
+import NavBar from './NavBar';
 
 
 function Home() {
@@ -23,7 +24,7 @@ function Home() {
     }
   } 
 };
-return (user.id ? <AlarmPage user={user} /> : <div>Loading...</div>) ;
+return (user.id ?  <div> <NavBar /> <AlarmPage user={user} /> </div> : <div>Loading...</div> ) ;
 
 }
 

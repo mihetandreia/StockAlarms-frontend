@@ -48,7 +48,10 @@ export default function Login() {
 
     return (
        <div>
-            <div className="container">
+          <div class="d-flex justify-content-between align-items-start">
+             <h1 class="ml-5">Stock Alarms</h1>
+          </div>
+          <div className="container">
             <div className="row">
             <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
 
