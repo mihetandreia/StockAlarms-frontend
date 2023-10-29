@@ -13,8 +13,8 @@ export default function Register() {
     password: ""
   });
 
-  const { firstName, lastName, email, password } = user;
-
+  const { firstName, lastName, email, password , checkPassword} = user;
+  
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -26,13 +26,31 @@ export default function Register() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/users/add", user);
+      await axios.post("http://localhost:8080/api/users/add", user)
+      .then((res) => 
+    {
+        
+        console.log(res.data);
+     
+     if (res.data.message === "Passwords do not match") 
+     {
+       alert("Passwords do not match");
+     } 
+     else 
+     { 
       alert("Registation Successfully");
-    } catch (err) {
-    alert(err);
-  }
-    navigate("/");
-  };
+      navigate('/');
+    } 
+ }, fail => {
+  console.error(fail);
+});
+}
+ catch (err) {
+  alert(err);
+}
+
+}
+
   
 
   return (
@@ -95,6 +113,30 @@ export default function Register() {
                   placeholder="Enter your password"
                   name="password"
                   value={password}
+                  onChange={(e) => onInputChange(e)}
+                  required
+                />
+                <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  required
+                  onClick={toggleShowPassword}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="Password" className="form-label">
+                Check Password
+              </label>
+              <div className="input-group">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="form-control"
+                  placeholder="Enter your password"
+                  name="checkPassword"
+                  value={checkPassword}
                   onChange={(e) => onInputChange(e)}
                   required
                 />
