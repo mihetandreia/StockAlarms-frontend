@@ -10,7 +10,8 @@ export default function Register() {
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
+    password: "",
+    checkPassword: ""
   });
 
   const { firstName, lastName, email, password , checkPassword} = user;
